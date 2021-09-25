@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include('../includes/header.ejs') %>
+</head>
+
+<body>
+  <%- include('../includes/productNav.ejs') %>
+    <div class="jumbotron text-center">
+      <div class="container">
+        <h1>
+          <%= title %>
+        </h1>
+        <div class="form-remove">
+          <form action="/products/remove-product" method="POST">
+            <p>
+              <label for="index">Product ID</label>
+              <input type="text" id="index" name="index" size="47">
+            </p>
+            <p>
+              <button type="submit" class="btn-primary">Submit</button>
+            </p>
+          </form>
+          <div class="container-table">
+            <% if (products.length> 0) { %>
+              <p>
+              <table>
+                <tr>
+                  <th>Product ID</th>
+                  <th>Title</th>
+                </tr>
+                <% products.forEach((product, index)=> { %>
+                  <tr>
+                    <td>
+                      <%= index %>
+                    </td>
+                    <td>
+                      <%= product.title %>
+                    </td>
+                  </tr>
+                  <% }) %>
+              </table>
+              </p>
+              <% } else { %>
+                <p>No products found</p>
+                <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+body {
+  background: #EFEFEF;
+  /* text-align: center; */
+}
+
+form {
+  display: inline-block;
+  /* margin-left: auto;
+  margin-right: auto; */
+  text-align: left;
+}
+
+table {
+  display: inline-block;
+  /* margin-left: auto;
+  margin-right: auto; */
+  text-align: left;
+}
+
+table, th, td {
+  border: 1px solid #A9A9A9;
+}
+
+th, td {
+  padding: 10px;
+}
+
+th {
+  background-color: #c0e1eb;
+}
+
+tr:nth-child(odd) {
+  background-color: #d0f1f8;
+}
+
+p {
+  line-height: 20px;
+  max-width: 75%;
+  margin: 1em auto 1em;
+  text-align: left;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.form-remove p {
+  max-width: 84%;
+}
+
+.jumbotron {
+  color: #A9A9A9;
+  padding-bottom: 80px;
+}
+
+.jumbotron .btn-primary {
+  background: #CAEBF2;
+  border-color: #CAEBF2;
+  color: #A9A9A9;
+}
+
+.jumbotron .btn-primary:hover {
+  background: #c0e1eb;
+}
+
+.navbar + .jumbotron {
+  margin-top: -20px;
+}
+
+.navbar {
+  background-color: #CAEBF2;
+  color: #A9A9A9;
+}
+
+.active {
+  background-color: #c0e1eb;
+}
+
+.glyphicon {
+  color: #EF3B3F;
+  padding-right: 5px;
+  padding-left: 0px;
+}
+
+.dropdown-menu {
+background-color: #CAEBF2;
+border: 0px;
+}

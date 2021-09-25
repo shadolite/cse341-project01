@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include('../includes/header.ejs') %>
+</head>
+
+<body>
+  <%- include('../includes/productNav.ejs') %>
+    <div class="jumbotron text-center">
+      <div class="container">
+        <h1>
+          <%= title %>
+        </h1>
+        <div class="container-table">
+          <% if (products.length> 0) { %>
+            <p>
+            <table>
+              <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Rating</th>
+                <th>Price</th>
+              </tr>
+              <% products.forEach((product)=> { %>
+                <tr>
+                  <td>
+                    <%= product.title %>
+                  </td>
+                  <td>
+                    <%= product.description %>
+                  </td>
+                  <td>
+                    <%= product.rating + '/5' %>
+                  </td>
+                  <td>
+                    <%= '$' + product.price %>
+                  </td>
+                </tr>
+                <% }) %>
+            </table>
+            </p>
+            <% } else { %>
+              <p>No products found</p>
+              <% } %>
+                <p>
+                  <a href="/products/add-product">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    <span>Add a new product</span>
+                  </a>
+                </p>
+                <p>
+                  <a href="/products/remove-product">
+                    <span class="glyphicon glyphicon-minus-sign"></span>
+                    <span>Remove a product</span>
+                  </a>
+                </p>
+        </div>
+      </div>
+    </div>
+</body>
+
+</html>

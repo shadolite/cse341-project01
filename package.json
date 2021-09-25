@@ -1,0 +1,32 @@
+{
+  "name": "project01",
+  "version": "0.1.0",
+  "description": "project01",
+  "main": "index.js",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "start-dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shadolite/cse341-project01.git"
+  },
+  "keywords": [
+    "project01",
+    "cse341"
+  ],
+  "author": "Amy Chambers",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shadolite/cse341-project01/issues"
+  },
+  "homepage": "https://github.com/shadolite/cse341-project01#readme"
+}
