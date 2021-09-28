@@ -1,51 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const products = [];
+const productsController = require('../controllers/products');
 
-router.get('/', (req, res, next) => {
-  res.render('pages/products', {
-    title: 'Products',
-    path: '/products',
-    products: products,
-  });
-});
 
-router.get('/add-product', (req, res, next) => {
-  res.render('pages/addProduct', {
-    title: 'Add a Product',
-    path: '/products/add-product',
-    products: products
-  });
-})
+router.get('/', productsController.getProducts);
 
-router.post('/add-product', (req, res, next) => {
-  products.push({
-    title: req.body.title,
-    description: req.body.description,
-    rating: req.body.rating,
-    price: req.body.price
-  });
-  res.redirect('/products');
-});
+router.get('/add-product', productsController.getAddProduct);
 
-router.get('/remove-product', (req, res, next) => {
-  res.render('pages/removeProduct', {
-    title: 'Remove a Product',
-    path: '/products/remove-product',
-    products: products
-  });
-})
+router.post('/add-product', productsController.postAddProduct);
 
-router.post('/remove-product', (req, res, next) => {
-  var titleIndex = req.body.index;
+router.get('/remove-product', productsController.getRemoveProduct);
 
-  if (titleIndex > -1) {
-    products.splice(titleIndex, 1);
-  }
+router.post('/remove-product', productsController.postRemoveProduct);
 
-  res.redirect('/products');
-});
-
-exports.routes = router;
-exports.users = products;
+module.exports = router;

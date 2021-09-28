@@ -1,0 +1,28 @@
+After completing the assignment, be sure to push to Github and Heroku.
+Please answer the questions in this text file and submit it to I-Learn.
+
+1. Copy and paste the URL for your web application (e.g., Heroku):
+https://arch-project01.herokuapp.com/products
+
+2. Copy and paste the URL for your source code repository (e.g., GitHub):
+https://github.com/shadolite/cse341-project01
+
+3. Briefly list and describe the elements of the application that are functioning.
+All existing books are displayed.
+User can add books, and can add extra information.
+User can remove books.
+
+4. Briefly describe any pieces of the assignment that are not yet working correctly.
+Everything is working correctly.
+
+5. Briefly describe the "coolest" thing you learned while completing this assignment.
+I was able to get the navbar navigation working in my personal project, but not in Heroku. Hopefully I'll be able to fix that later.
+
+6. If you could change this assignment to be more effective or helpful, what would you change?
+Add more specific instructions for repositories. Heroku DOES NOT WORK if it's not initialized in the SAME DIRECTORY as package.json. This means that if we use the original suggested repository setup, and prove02 is created in a sub-folder, Heroku initializes in a different directory and WILL NOT BUILD THE PROJECT. This was extremely frustrating, and took me 3 HOURS TO FIGURE OUT WHAT WAS WRONG!!!
+
+7. Please select the category you feel best describes your assignment:
+   5 - Shows creativity and excels above and beyond requirements
+
+8. Provide a brief justification (1-2 sentences) for selecting that category.
+The layout looks nice, users can save more than the title of a book, and it's very easy to delete a book.
