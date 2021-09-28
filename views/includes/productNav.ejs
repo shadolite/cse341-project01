@@ -1,14 +1,14 @@
 <nav class="navbar navbar-static-top">
   <div class="container">
     <ul class="nav navbar-nav">
-      <li class="<%= path === '/products' ? 'active' : ''%>">
-        <a href="/products"><span class="glyphicon glyphicon-book"></span> Products</a>
+      <li class="<%= path === '/shop' ? 'active' : ''%>">
+        <a href="/shop"><span class="glyphicon glyphicon-book"></span> Shop</a>
       </li>
       <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Product Options <span class="caret"></span></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Admin Options <span class="caret"></span></a>
         <ul class="dropdown-menu" role="menu">
-          <li class="<%= path === '/products' ? 'active' : ''%>"><a href="/products/add-product">Add Product</a></li>
-          <li class="<%= path === '/ta03' ? 'active' : ''%>"><a href="/products/remove-product">Remove Product</a></li>
+          <li class="<%= path === '/admin/add-product' ? 'active' : ''%>"><a href="/admin/add-product">Add Product</a></li>
+          <li class="<%= path === '/admin/remove-product' ? 'active' : ''%>"><a href="/admin/remove-product">Remove Product</a></li>
         </ul>
       </li>
     </ul>
