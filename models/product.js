@@ -18,9 +18,12 @@ const getProductsFromFile = (callback) => {
 };
 
 const saveToFile = (products) => {
-    fs.writeFile(p, JSON.stringify(products), (error) => {
-        console.log(error);
-    });
+    fs.writeFile(
+        p,
+        JSON.stringify(products),
+        (error) => {
+            console.log(error);
+        });
 }
 
 module.exports = class Product {
