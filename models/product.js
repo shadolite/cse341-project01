@@ -1,33 +1,16 @@
-const fs = require('fs');
 const path = require('path');
+const FileHelper = require('../util/fileHelper');
+const Cart = require('./cart');
 
-const p = path.join(
+const productsFilepath = path.join(
     path.dirname(process.mainModule.filename),
     'data',
     'products.json'
 );
 
-const getProductsFromFile = (callback) => {
-    fs.readFile(p, (error, fileContent) => {
-        if (error) {
-            callback([]);
-        } else {
-            callback(JSON.parse(fileContent));
-        }
-    });
-};
-
-const saveToFile = (products) => {
-    fs.writeFile(
-        p,
-        JSON.stringify(products),
-        (error) => {
-            console.log(error);
-        });
-}
-
 module.exports = class Product {
-    constructor(title, description, rating, price) {
+    constructor(id, title, description, rating, price) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.rating = rating;
@@ -35,20 +18,39 @@ module.exports = class Product {
     }
 
     save() {
-        getProductsFromFile((products) => {
+        FileHelper.getFileContents(productsFilepath, (products) => {
+            if (products === {}){
+                products = [this];
+            } else {
+                console.log(products);
             products.push(this);
-            saveToFile(products);
+            }
+            FileHelper.saveToFile(productsFilepath, products);
         });
     }
 
-    static remove(index) {
-        getProductsFromFile((products) => {
-            products.splice(index, 1);
-            saveToFile(products);
+    static remove(id) {
+        FileHelper.getFileContents(productsFilepath, (products) => {
+            try {
+                const product = products.find(p => p.id === id);
+                const updatedProducts = products.filter(p => p.id === id);
+
+                FileHelper.saveToFile(productsFilepath, updatedProducts);
+                Cart.removeProduct(id, product.price);
+            } catch (error) {
+                console.log(error);
+            }
         });
     }
 
     static fetchAll(callback) {
-        getProductsFromFile(callback);
+        FileHelper.getFileContents(productsFilepath, callback);
+    }
+
+    static findById(id, callback) {
+        FileHelper.getFileContents(productsFilepath, (products) => {
+        const product = products.find(p => p.id === id);
+        callback(product);
+      });
     }
 }

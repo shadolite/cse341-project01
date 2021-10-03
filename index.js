@@ -16,10 +16,7 @@ app
 .use(bodyParser.urlencoded({ extended: false }))
 .use(express.static(path.join(__dirname, 'public')))
 
-.use('/shop', shopRoutes)
 .use('/admin', adminRoutes)
-.get('/', (req, res, next) => {
-  res.redirect('/shop')
-})
+.use(shopRoutes)
 .use(errorController.get404)
 .listen(PORT, () => console.log(`Listening on ${PORT}`));

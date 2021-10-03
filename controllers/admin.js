@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const uuid = require('uuid');
 
 exports.getProducts = (req, res, next) => {
     Product.fetchAll(products => {
@@ -12,16 +13,18 @@ exports.getProducts = (req, res, next) => {
 
 exports.getAddProduct = (req, res, next) => {
     Product.fetchAll(products => {
-        res.render('admin/addProduct', {
+        res.render('admin/editProduct', {
             title: 'Add a Product',
             path: '/admin/add-product',
-            products: products
+            products: products,
+            editing: false
         });
     });
 };
 
 exports.postAddProduct = (req, res, next) => {
     const product = new Product(
+        uuid.v1(),
         req.body.title,
         req.body.description,
         req.body.rating,
@@ -29,25 +32,48 @@ exports.postAddProduct = (req, res, next) => {
     );
 
     product.save();
-    res.redirect('/shop');
+    res.redirect('/');
 };
 
-exports.getRemoveProduct = (req, res, next) => {
-    Product.fetchAll(products => {
-        res.render('admin/removeProduct', {
-            title: 'Remove a Product',
-            path: '/admin/remove-product',
-            products: products
+exports.getEditProduct = (req, res, next) => {
+    const editMode = req.query.edit;
+
+    if (!editMode) {
+        return res.redirect('/');
+    }
+
+    const prodId = req.params.productId;
+
+    Product.findById(prodId, product => {
+        if (!product) {
+            return res.redirect('/');
+        }
+        res.render('admin/editProduct', {
+            pageTitle: 'Edit Product',
+            path: '/admin/edit-product',
+            title: 'Edit Product',
+            editing: editMode,
+            product: product
         });
     });
+}
+
+exports.postEditProduct = (req, res, next) => {
+  const updatedProduct = new Product(
+    req.body.id,
+    req.body.title,
+    req.body.description,
+    req.body.rating,
+    req.body.price
+  );
+
+  updatedProduct.save();
+
+  res.redirect('/admin/products');
 };
 
 exports.postRemoveProduct = (req, res, next) => {
-    var titleIndex = req.body.index;
+    Product.remove(req.body.id);
 
-    if (titleIndex > -1) {
-        Product.remove(titleIndex);
-    }
-
-    res.redirect('/shop');
+    res.redirect('/admin/products');
 };
