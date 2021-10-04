@@ -1,5 +1,4 @@
 const Product = require('../models/product');
-const uuid = require('uuid');
 
 exports.getProducts = (req, res, next) => {
     Product.fetchAll(products => {
@@ -24,7 +23,7 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
     const product = new Product(
-        uuid.v1(),
+        undefined,
         req.body.title,
         req.body.description,
         req.body.rating,
@@ -42,9 +41,9 @@ exports.getEditProduct = (req, res, next) => {
         return res.redirect('/');
     }
 
-    const prodId = req.params.productId;
+    const prodID = req.params.productID;
 
-    Product.findById(prodId, product => {
+    Product.findByID(prodID, product => {
         if (!product) {
             return res.redirect('/');
         }

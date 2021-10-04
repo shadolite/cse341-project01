@@ -1,6 +1,7 @@
 const path = require('path');
 const FileHelper = require('../util/fileHelper');
 const Cart = require('./cart');
+const uuid = require('uuid');
 
 const productsFilepath = path.join(
     path.dirname(process.mainModule.filename),
@@ -19,11 +20,17 @@ module.exports = class Product {
 
     save() {
         FileHelper.getFileContents(productsFilepath, (products) => {
-            if (products === {}){
+            if (this.id) {
+                const existingProductIndex = products.findIndex(p => p.id === this.id);
+                const updatedProducts = [...products];
+                updatedProducts[existingProductIndex] = this;
                 products = [this];
             } else {
-                console.log(products);
-            products.push(this);
+                if (products === []){
+                    products = { };
+                }
+                this.id = uuid.v1();
+                products.push(this);
             }
             FileHelper.saveToFile(productsFilepath, products);
         });
@@ -38,7 +45,7 @@ module.exports = class Product {
                 FileHelper.saveToFile(productsFilepath, updatedProducts);
                 Cart.removeProduct(id, product.price);
             } catch (error) {
-                console.log(error);
+                console.log("Error removing product: " + error);
             }
         });
     }
@@ -47,10 +54,10 @@ module.exports = class Product {
         FileHelper.getFileContents(productsFilepath, callback);
     }
 
-    static findById(id, callback) {
+    static findByID(id, callback) {
         FileHelper.getFileContents(productsFilepath, (products) => {
-        const product = products.find(p => p.id === id);
-        callback(product);
-      });
+            const product = products.find(p => p.id === id);
+            callback(product);
+        });
     }
 }

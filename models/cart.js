@@ -7,64 +7,82 @@ const cartFilepath = path.join(
     'cart.json'
 );
 
-const getAddUpdatedProducts = (products, id) => {
-    const existingProductIndex = products.findIndex(
-        product => product.id === id
-    );
-
-    const existingProduct = products[existingProductIndex];
+const getAddUpdatedProducts = (cart, id) => {
+    console.log(cart.products);
     let updatedProduct;
 
-    if (existingProduct) {
-        updatedProduct = { ...existingProduct };
-        updatedProduct.qty = updatedProduct.qty + 1;
-        products = [...products];
-        products[existingProductIndex] = updatedProduct;
+    if (cart.products) {
+        const existingProductIndex = cart.products.findIndex(
+            p => p.id === id
+        );
+
+        const existingProduct = cart.products[existingProductIndex];
+
+        if (existingProduct) {
+            updatedProduct = { ...existingProduct };
+            updatedProduct.qty = updatedProduct.qty + 1;
+            cart.products = [...cart.products];
+            cart.products[existingProductIndex] = updatedProduct;
+        } else {
+            updatedProduct = { id: id, qty: 1 };
+            cart.products = [...cart.products, updatedProduct];
+          }
     } else {
+        console.log("adding product to cart");
         updatedProduct = { id: id, qty: 1 };
-        return [...products, updatedProduct];
+        cart.products = [ updatedProduct ];
     }
 
-    return products;
+    console.log(cart);
+    return cart.products;
 }
 
-const getAddUpdatedTotal = (totalPrice, productPrice) =>
-    totalPrice + +productPrice;
+const getAddUpdatedTotal = (cart, productPrice) => {
+    if (!cart.totalPrice){
+        cart.totalPrice = 0;
+    }
+    return cart.totalPrice + +productPrice;
+}
 
-const getRemoveUpdatedProducts = (products, id) => 
-    products.filter(prod => prod.id !== id);
+const getRemoveUpdatedProducts = (cart, id) => {
+    console.log(cart);
+    if (cart.products)
+    return cart.products.filter(prod => prod.id !== id);
+}
 
 const getRemoveUpdatedTotal = (totalPrice, productPrice, productQty) =>
     totalPrice - productPrice * productQty;
 
 module.exports = class Cart {
+    constructor(products, totalPrice) {
+        this.products = products;
+        this.totalPrice = totalPrice;
+    }
+
     static addProduct(id, productPrice) {
         FileHelper.getFileContents(cartFilepath, (cart) => {
-            if (cart === []){
-                cart.products = [];
-                cart.totalPrice = 0;
-            }
-
-            cart.products = getAddUpdatedProducts(cart.products, id);
-            cart.totalPrice = getAddUpdatedTotal(cart.totalPrice, productPrice);
-            FileHelper.saveToFile(cartFilepath, cart);
+            let updatedCart = new Cart([], 0);
+            updatedCart.products = getAddUpdatedProducts(cart, id);
+            updatedCart.totalPrice = getAddUpdatedTotal(cart, productPrice);
+            console.log(updatedCart);
+            FileHelper.saveToFile(cartFilepath, updatedCart);
         });
     }
 
     static removeProduct(id, productPrice) {
         FileHelper.getFileContents(cartFilepath, (updatedCart) => {
-            if(updatedCart === []){
+            if (updatedCart === []) {
                 return;
             }
-            
+
             const product = updatedCart.products.find(product => product.id === id);
-            
+
             if (!product) {
                 return;
             }
 
-            updatedCart.products = getRemoveUpdatedProducts(cart.products, product);
-            updatedCart.totalPrice = getRemoveUpdatedTotal(updatedCart.totalPrice, productPrice, product.Qty);
+            updatedCart.products = getRemoveUpdatedProducts(updatedCart.products, product);
+            updatedCart.totalPrice = getRemoveUpdatedTotal(updatedCart.totalPrice, productPrice, product.qty);
 
             FileHelper.saveToFile(cartFilepath, updatedCart);
         });

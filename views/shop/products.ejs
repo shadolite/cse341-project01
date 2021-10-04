@@ -9,9 +9,6 @@
   <%- include('../includes/productNav.ejs') %>
     <div class="jumbotron text-center">
       <div class="container">
-        <h1>
-          <%= title %>
-        </h1>
         <main>
           <% if (products.length> 0) { %>
             <div class="grid">
@@ -40,6 +37,4 @@
         </main>
       </div>
     </div>
-</body>
-
-</html>
+    <%- include('../includes/footer.ejs') %>

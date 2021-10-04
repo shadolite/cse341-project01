@@ -9,19 +9,16 @@
   <%- include('../includes/productNav.ejs') %>
     <div class="jumbotron text-center">
       <div class="container">
-        <h1>
-          <%= title %>
-        </h1>
         <main>
           <% if (products.length> 0) { %>
             <ul>
               <% products.forEach(p=> { %>
                 <li>
                   <p>
-                    <%= p.productData.title %> (<%= p.qty %>)
+                    <%= p.product.title %> (<%= p.qty %>)
                   </p>
                   <form action="/cart-remove-item" method="POST">
-                    <input type="hidden" value="<%= p.productData.id %>" name="productId">
+                    <input type="hidden" value="<%= p.product.id %>" name="productID">
                     <button class="btn" type="submit">Delete</button>
                   </form>
                 </li>
@@ -33,7 +30,4 @@
         </main>
       </div>
     </div>
-
-</body>
-
-</html>
+    <%- include('../includes/footer.ejs') %>

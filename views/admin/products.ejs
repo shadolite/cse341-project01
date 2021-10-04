@@ -9,9 +9,6 @@
   <%- include('../includes/productNav.ejs') %>
     <div class="jumbotron text-center">
       <div class="container">
-        <h1>
-          <%= title %>
-        </h1>
         <main>
           <% if (products.length> 0) { %>
             <div class="grid">
@@ -30,7 +27,7 @@
                   <div class="card-actions">
                     <a href="/admin/edit-product/<%= product.id %>?edit=true" class="btn">Edit</a>
                     <form action="/admin/remove-product" method="POST">
-                      <input type="hidden" value="<%= product.id %>" name="productId">
+                      <input type="hidden" value="<%= product.id %>" name="productID">
                       <button class="btn" type="submit">Delete</button>
                     </form>
 
@@ -44,7 +41,4 @@
         </main>
       </div>
     </div>
-
-</body>
-
-</html>
+    <%- include('../includes/footer.ejs') %>
