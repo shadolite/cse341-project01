@@ -1,23 +1,22 @@
 const Product = require('../models/product');
 
 exports.getProducts = (req, res, next) => {
-    Product.fetchAll(products => {
-        res.render('admin/products', {
-            products: products,
-            title: 'Admin Products',
-            path: '/admin/products'
+    Product.fetchAll()
+        .then(products => {
+            res.render('admin/products', {
+                products: products,
+                title: 'Admin Products',
+                path: '/admin/products'
+            });
         })
-    })
+        .catch(error => console.log(error));
 }
 
 exports.getAddProduct = (req, res, next) => {
-    Product.fetchAll(products => {
-        res.render('admin/editProduct', {
-            title: 'Add a Product',
-            path: '/admin/add-product',
-            products: products,
-            editing: false
-        });
+    res.render('admin/editProduct', {
+        title: 'Add a Product',
+        path: '/admin/add-product',
+        editing: false
     });
 };
 
@@ -30,8 +29,15 @@ exports.postAddProduct = (req, res, next) => {
         req.body.price
     );
 
-    product.save();
-    res.redirect('/');
+    product
+        .save()
+        .then(result => {
+            console.log('Created Product');
+            res.redirect('/admin/products');
+        })
+        .catch(error => {
+            console.log(error);
+        });
 };
 
 exports.getEditProduct = (req, res, next) => {
@@ -41,38 +47,47 @@ exports.getEditProduct = (req, res, next) => {
         return res.redirect('/');
     }
 
-    const prodID = req.params.productID;
+    const productID = req.params.productID;
 
-    Product.findByID(prodID, product => {
-        if (!product) {
-            return res.redirect('/');
-        }
-        res.render('admin/editProduct', {
-            pageTitle: 'Edit Product',
-            path: '/admin/edit-product',
-            title: 'Edit Product',
-            editing: editMode,
-            product: product
-        });
-    });
+    Product.findByID(productID)
+        .then(product => {
+            if (!product) {
+                return res.redirect('/');
+            }
+            res.render('admin/editProduct', {
+                pageTitle: 'Edit Product',
+                path: '/admin/edit-product',
+                title: 'Edit Product',
+                editing: editMode,
+                product: product
+            });
+        })
+        .catch(error => console.log(error));
 }
 
 exports.postEditProduct = (req, res, next) => {
-  const updatedProduct = new Product(
-    req.body.id,
-    req.body.title,
-    req.body.description,
-    req.body.rating,
-    req.body.price
-  );
+    const product = new Product(
+        req.body.id,
+        req.body.title,
+        req.body.description,
+        req.body.rating,
+        req.body.price
+    );
 
-  updatedProduct.save();
-
-  res.redirect('/admin/products');
+    product
+        .save()
+        .then(result => {
+            console.log('Updated Product');
+            res.redirect('/admin/products');
+        })
+        .catch(error => console.log(error));
 };
 
-exports.postRemoveProduct = (req, res, next) => {
-    Product.remove(req.body.id);
-
-    res.redirect('/admin/products');
+exports.postDeleteProduct = (req, res, next) => {
+    Product.deleteByID(req.body.id)
+        .then(() => {
+            console.log('Deleted Product');
+            res.redirect('/admin/products');
+        })
+        .catch(error => console.log(error));
 };

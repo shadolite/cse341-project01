@@ -32,7 +32,7 @@
                 value="<% if (editing) { %><%= product.price %><% } %>">
             </div>
             <% if (editing) { %>
-              <input type="hidden" value="<%= product.id %>" name="productID">
+              <input type="hidden" value="<%= product._id %>" name="productID">
               <% } %>
 
                 <button class="btn" type="submit">
