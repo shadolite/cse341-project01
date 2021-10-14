@@ -10,15 +10,15 @@
     <div class="jumbotron text-center">
       <div class="container">
         <main>
-          <% if (cart.length> 0) { %>
+          <% if (cart.items.length> 0) { %>
             <ul>
-              <% cart.forEach(item=> { %>
+              <% cart.items.forEach(item=> { %>
                 <li>
                   <p>
-                    <%= item.title %> (<%= item.qty %>)
+                    <%= item.product.title %> (<%= item.quantity %>)
                   </p>
                   <form action="/cart-delete-item" method="POST">
-                    <input type="hidden" value="<%= item._id %>" name="productId">
+                    <input type="hidden" value="<%= item.product._id %>" name="productID">
                     <button class="btn" type="submit">Delete</button>
                   </form>
                 </li>

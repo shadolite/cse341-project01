@@ -7,19 +7,22 @@ https://arch-project01.herokuapp.com/
 2. Copy and paste the URL for your source code repository (e.g., GitHub):
 https://github.com/shadolite/cse341-project01
 
-3. Briefly list and describe the elements of the application that are functioning. 
+3. Briefly list and describe the elements of the application that are functioning.
+MongoDB connects properly.
+CRUD operations are functional for products, users, and orders.
+Orders can be posted from cart.
 
 4. Briefly describe any pieces of the assignment that are not yet working correctly.
+Errors occur when trying to add objects to an empty cart, or showing cart items when none are found.
 
 5. Briefly describe the "coolest" thing you learned while completing this assignment.
+It's actually really easy to connect to a database. I was expecting it to be harder.
 
 6. If you could change this assignment to be more effective or helpful, what would you change?
+Is there some kind of intellisense for node.js projects? I often get errors because of misnamed objects, and this would help a lot.
 
 7. Please select the category you feel best describes your assignment:
-   1 - Some attempt was made
-   2 - Developing, but significantly deficient
    3 - Slightly deficient, but still mostly adequate
-   4 - Meets requirements
-   5 - Shows creativity and excels above and beyond requirements
 
 8. Provide a brief justification (1-2 sentences) for selecting that category.
+Errors prevent proper testing without manually inserting records into the DB.

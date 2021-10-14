@@ -25,7 +25,7 @@ app
       req.user = new User(user.name, user.email, user.cart, user._id);
       next();
     })
-    .catch(err => console.log(err));
+    .catch(error => console.log(error));
 })
 
 .use('/admin', adminRoutes)

@@ -39,16 +39,11 @@ exports.getIndex = (req, res, next) => {
 
 
 exports.getCart = (req, res, next) => {
-    req.user
-        .getCart()
-        .then(cart => {
-            res.render('shop/cart', {
-                path: '/cart',
-                title: 'Your Cart',
-                cart: cart
-            });
-        })
-        .catch(error => console.log(error));
+    res.render('shop/cart', {
+        path: '/cart',
+        title: 'Your Cart',
+        cart: req.user.cart
+    });
 };
 
 exports.postCart = (req, res, next) => {
@@ -68,7 +63,7 @@ exports.postCartDeleteProduct = (req, res, next) => {
         .then(result => {
             res.redirect('/cart');
         })
-        .catch(err => console.log(err));
+        .catch(error => console.log(error));
 };
 
 exports.postOrder = (req, res, next) => {
@@ -77,7 +72,7 @@ exports.postOrder = (req, res, next) => {
         .then(result => {
             res.redirect('/orders');
         })
-        .catch(err => console.log(err));
+        .catch(error => console.log(error));
 };
 
 exports.getOrders = (req, res, next) => {
@@ -90,5 +85,5 @@ exports.getOrders = (req, res, next) => {
                 orders: orders
             });
         })
-        .catch(err => console.log(err));
+        .catch(error => console.log(error));
 };
