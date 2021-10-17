@@ -1,32 +1,61 @@
-const ObjectID = require('mongodb').ObjectID;
-const productsDB = require('../util/database/products');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-class Product {
-  constructor(id, title, description, rating, price, userID) {
-    this._id = id ? new ObjectID(id) : null;
-    this.title = title;
-    this.description = description;
-    this.rating = rating;
-    this.price = price;
-    this.userID = userID;
+const productSchema = new Schema({
+  title: {
+    type: String,
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  imageUrl: {
+    type: String,
+    required: true
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   }
+});
 
-  save() {
-    if (this._id) {
-      return productDB.updateProduct(this);
-    } else {
-      return productDB.insertProduct(this);
-    }
-  }
+module.exports = mongoose.model('Product', productSchema);
 
-  static fetchAll = () => 
-    productsDB.getProducts();
+// const ObjectID = require('mongodb').ObjectID;
+// const productsDB = require('../util/database/products');
 
-  static findByID = (productID) =>
-    productsDB.getProduct(productID);
+// class Product {
+//   constructor(id, title, description, rating, price, userID) {
+//     this._id = id ? new ObjectID(id) : null;
+//     this.title = title;
+//     this.description = description;
+//     this.rating = rating;
+//     this.price = price;
+//     this.userID = userID;
+//   }
 
-  static deleteByID = (productID) =>
-    productsDB.deleteProduct(productID);
-}
+//   save() {
+//     if (this._id) {
+//       return productDB.updateProduct(this);
+//     } else {
+//       return productDB.insertProduct(this);
+//     }
+//   }
 
-module.exports = Product;
+//   static fetchAll = () => 
+//     productsDB.getProducts();
+
+//   static findByID = (productID) =>
+//     productsDB.getProduct(productID);
+
+//   static deleteByID = (productID) =>
+//     productsDB.deleteProduct(productID);
+// }
+
+// module.exports = Product;

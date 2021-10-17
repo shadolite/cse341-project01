@@ -2,21 +2,23 @@
 <html>
 
 <head>
-    <%- include('../includes/header.ejs') %>
+  <%- include('../includes/header.ejs') %>
 </head>
 
 <body>
-    <%- include('../includes/productNav.ejs') %>
-        <div class="jumbotron text-center">
-            <div class="container">
-                <main class="centered">
-                    <h1><%= product.title %></h1>
-                    <hr>
-                    <p><%= product.description %></p>
-                    <h2><%= product.rating %>/5</h2>
-                    <h2><%= product.price %></h2>
-                    <%- include('../includes/addToCart.ejs') %>
-                </main>
-            </div>
-        </div>
-        <%- include('../includes/footer.ejs') %>
+  <%- include('../includes/productNav.ejs') %>
+    <div class="jumbotron text-center">
+      <div class="container">
+        <main class="centered">
+          <h1><%= product.title %></h1>
+          <hr>
+          <p><%= product.description %></p>
+          <h2><%= product.rating %>/5</h2>
+          <h2><%= product.price %></h2>
+          <% if (isAuthenticated) { %>
+            <%- include('../includes/addToCart.ejs', {product: product}) %>
+          <% } %>
+        </main>
+      </div>
+    </div>
+    <%- include('../includes/footer.ejs') %>
