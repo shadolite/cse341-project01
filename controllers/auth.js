@@ -34,20 +34,22 @@ exports.getSignup = (req, res, next) => {
 };
 
 exports.postLogin = (req, res, next) => {
-  const user = User.tryAuthenticate(req.body.email, req.body.password);
-  if (!user) {
-    req.flash('error', 'Invalid email or password.');
+  User.tryAuthenticate(req.body.email, req.body.password)
+    .then(user => {
+      if (!user) {
+        req.flash('error', 'Invalid email or password.');
 
-    return res.redirect('/login');
-  } else {
-    req.session.isLoggedIn = true;
-    req.session.user = user;
+        return res.redirect('/login');
+      } else {
+        req.session.isLoggedIn = true;
+        req.session.user = user;
 
-    return req.session.save(error => {
-      console.log(error);
-      res.redirect('/');
+        return req.session.save(error => {
+          console.log(error);
+          res.redirect('/');
+        });
+      }
     });
-  }
 };
 
 exports.postSignup = (req, res, next) => {
