@@ -28,7 +28,7 @@ exports.getSignup = (req, res, next) => {
 
   res.render('auth/signup', {
     path: '/signup',
-    title: 'Signup',
+    title: 'Sign Up',
     errorMessage: message
   });
 };
@@ -58,14 +58,19 @@ exports.postSignup = (req, res, next) => {
 
   if (password !== req.body.confirmPassword) {
     req.flash('error', 'Passwords do not match.');
-    next();
-  } else if (User.findByEmail(email)) {
-    req.flash('error', 'E-Mail exists already, please pick a different one.');
-    next();
+    res.redirect('/signup');
   } else {
-    User.createUser(email, password)
-      .then(result => {
-        res.redirect('/login');
+    User.findByEmail(email)
+      .then(user => {
+        if (user) {
+          req.flash('error', 'E-Mail exists already, please pick a different one.');
+          res.redirect('/signup');
+        } else {
+          User.createUser(email, password)
+            .then(result => {
+              res.redirect('/login');
+            });
+        }
       });
   }
 };

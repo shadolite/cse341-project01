@@ -1,0 +1,27 @@
+After completing the assignment, be sure to push to Github and Heroku.
+Please answer the questions in this text file and submit it to I-Learn.
+
+1. Copy and paste the URL for your web application (e.g., Heroku):
+https://arch-project01.herokuapp.com/
+
+2. Copy and paste the URL for your source code repository (e.g., GitHub):
+https://github.com/shadolite/cse341-project01
+
+3. Briefly list and describe the elements of the application that are functioning.
+Authentication shows proper error messages for failure.
+Dynamic routes and csrf are implemented.
+Email, encrypted password, and username are stored in the database.
+
+4. Briefly describe any pieces of the assignment that are not yet working correctly.
+Matching passwords doesn't work for existing user for some reason. Still trying to figure that out.
+
+5. Briefly describe the "coolest" thing you learned while completing this assignment.
+Mongoose is a pretty efficient way of interacting with the DB, if you know how to use it.
+
+6. If you could change this assignment to be more effective or helpful, what would you change?
+It was difficult to switch to using mongoose without a lot of instructions. I couldn't figure out why it was telling me a method didn't exist until I researched it, and found out I should be using schema.statics instead of schema.methods.
+
+7. Please select the category you feel best describes your assignment:
+3 - Slightly deficient, but still mostly adequate
+
+8. Provide a brief justification (1-2 sentences) for selecting that category.

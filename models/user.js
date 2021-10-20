@@ -61,6 +61,11 @@ userSchema.methods.clearCart = function () {
   return this.save();
 };
 
+userSchema.statics.findByEmail = function (email) {
+  return this.findOne({ email: email })
+    .catch(error => console.log(error));
+};   
+
 userSchema.statics.tryAuthenticate = function (email, password) {
   var hashpass = bcrypt.hash(password, 12);
   return this.findOne({ email: email })
@@ -82,12 +87,12 @@ userSchema.statics.createUser = function (email, password) {
       return bcrypt
         .hash(password, 12)
         .then(hashedPassword => {
-          const user = new User({
+          const user = new this({
             email: email,
             password: hashedPassword,
             cart: { items: [] }
           });
-          return usersDB.insertUser(user);
+          return user.save(user);
         })
     }
 
