@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
-const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3000;
+require('dotenv').config();
 
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -16,59 +16,83 @@ const adminRoutes = require('./routes/admin');
 const authRoutes = require('./routes/auth');
 const errorController = require('./controllers/error');
 
-const MONGODB_URI = 'mongodb+srv://ahowell:ggHQf4tv6bVyLw@cluster0.u65ae.mongodb.net/shop';
-
 const app = express();
 const store = new MongoDBStore({
-  uri: MONGODB_URI,
+  uri: process.env.MONGODB_URI,
   collection: 'sessions'
 });
 const csrfProtection = csrf();
 
 
-app
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
+app.set('views', path.join(__dirname, 'views'))
+  .set('view engine', 'ejs');
 
-  .use(bodyParser.urlencoded({ extended: false }))
-  .use(express.static(path.join(__dirname, 'public')))
-  .use(
-    session({
-      secret: 'my secret',
-      resave: false,
-      saveUninitialized: false,
-      store: store
-    })
-  )
-  .use(csrfProtection)
-  .use(flash())
+app.use(express.urlencoded({ extended: false }))
+.use(express.json())
+  .use(express.static(path.join(__dirname, 'public')));
 
-  .use((req, res, next) => {
-    if (!req.session.user) {
-      return next();
-    }
-    User.findById(req.session.user._id)
-      .then(user => {
-        req.user = user;
-        next();
-      })
-      .catch(err => console.log(err));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: store
   })
+);
 
+app.use(csrfProtection)
+  .use(flash())
   .use((req, res, next) => {
     res.locals.isAuthenticated = req.session.isLoggedIn;
     res.locals.csrfToken = req.csrfToken();
     next();
-  })
+  });
 
-  .use('/admin', adminRoutes)
+app.use((req, res, next) => {
+  // throw new Error('Sync Dummy');
+  if (!req.session.user) {
+    return next();
+  }
+  User.findById(req.session.user._id)
+    .then(user => {
+      if (!user) {
+        return next();
+      }
+      req.user = user;
+      next();
+    })
+    .catch(err => {
+      next(new Error(err));
+    });
+});
+
+app.use('/admin', adminRoutes)
   .use(shopRoutes)
   .use(authRoutes)
-  .use(errorController.get404);
+  .get('/500', errorController.get500)
+  .use(errorController.get404)
+  .use((error, req, res, next) => {
+    res.status(500).render('500', {
+      title: 'Error!',
+      path: '/500',
+      isAuthenticated: req.session.isLoggedIn
+    });
+  });
 
+// var appendLocalsToUseInViews = function (req, res, next) {
+//   res.locals.request = req;
+
+//   if (req.session != null) {
+//     res.session.env = req.session.env;
+//   }
+
+//   next(null, req, res);
+// };
+
+// app.use(appendLocalsToUseInViews);
 
 mongoose
-  .connect(MONGODB_URI)
+  .connect(process.env.MONGODB_URI)
   .then(result => {
     app.listen(3000);
   })
